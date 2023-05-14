@@ -1,0 +1,48 @@
+
+.hidden{
+    display: none;
+}
+body.light .form-control:disabled:not(.flatpickr-input), body.light .form-control[readonly]:not(.flatpickr-input) {
+    background-color: #182e49 !important;
+    color: #000 !important;
+}
+.form-control:disabled:not(.flatpickr-input), .form-control[readonly]:not(.flatpickr-input){
+    color: #000 !important;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+#sidebar .theme-brand,
+.sidebar-theme {
+    background: #5b2b78 !important;
+}
+#sidebar .theme-brand div.theme-text a,
+#sidebar ul.menu-categories li.menu > .dropdown-toggle svg:not(.badge-icon),
+#sidebar ul.menu-categories li.menu > .dropdown-toggle{
+    color:#fff !important;
+}
+#sidebar .theme-brand{
+    border-bottom: 1px solid #5b2b78 !important;
+}
+li,
+.faq .faq-layouting .fq-tab-section .accordion .card .card-header div .faq-q-title{
+    color: #000 !important;
+}
+
+.btn_view_Profile {
+    text-decoration: underline;
+    color: purple;
+}
