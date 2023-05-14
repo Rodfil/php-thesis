@@ -26,7 +26,7 @@
         <div class="overlay"></div>
         <div class="search-overlay"></div>
 
-        <!--  BEGIN SIDEBAR  -->
+        <!--  BEGIN     R  -->
         <?php include('nav-sidebar.php'); ?>
         <!--  END SIDEBAR  -->
         
@@ -331,12 +331,12 @@
                                             while($row = $result->fetch_array()){
                                                 if($RegistrationStatus == 0){
                                                     if($row['IsNonVoter'] == 1){
-                                                        echo '<option value='.$row['ID'].'>'.$row['DocumentName'].'</option>';
+                                                        echo '<option value='.$row['ID'].'>'.ucfirst($row['DocumentName']).'</option>';
                                                     }
                                                 }
                                                 if($RegistrationStatus == 1){
                                                     if($row['IsVoter'] == 1){
-                                                        echo '<option value='.$row['ID'].'>'.$row['DocumentName'].'</option>';
+                                                        echo '<option value='.$row['ID'].'>'.ucfirst($row['DocumentName']).'</option>';
                                                     }
                                                 }
                                             }

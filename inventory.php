@@ -34,7 +34,7 @@
                 <div class="middle-content container-xxl p-0">
                     <div class="page-meta">
                         <div class="d-flex justify-content-between">
-                            <h3>User List</h3>
+                            <h3>Document Inventory</h3>
                         </div>
                     </div>
                     <div class="row layout-top-spacing">
@@ -300,8 +300,8 @@
                                                         LEFT JOIN payment B ON B.RequestFormID = A.ID
                                                         INNER JOIN users C ON C.ID = A.UserID
                                                         INNER JOIN document_list D ON D.ID = A.DocumentID
-                                                        LEFT JOIN users E ON E.ID = A.ReleasedBy
-                                                        WHERE A.Status = 3
+                                                        LEFT JOIN users E ON E.ID = A.ReleasedBy    
+                                                        WHERE A.Status = 3 AND A.ReceiveDate >= CURDATE()
                                                         ORDER BY A.ID ASC";
                                                         if ($result = $mysqli->query($query)) {
                                                             while($row = $result->fetch_array()){
@@ -328,14 +328,11 @@
                                                                     $Button = '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Set text-info">Set Appointment</a>';
                                                                 }
                                                                 else if ($row['Status'] == 3){
-                                                                    if($row['DateNumber'] > date('Ymd')){
-                                                                        $Button .= "<span class='badge badge-primary'>For Releasing</span>&nbsp;&nbsp;";
-                                                                        $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Release text-primary">Release</a>&nbsp;&nbsp;';
-                                                                        $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Edit text-primary">Edit</a>';
-                                                                    }
-                                                                    else{
-                                                                        $Button .= "<span class='badge badge-warning'>Delayed</span>";
-                                                                    }
+                                                                   if ($row['ReceiveDate'] >= date('Y-m-d')) {
+                                                                    $Button .= "<span class='badge badge-primary'>For Releasing</span>&nbsp;&nbsp;";
+                                                                    $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Release text-primary">Release</a>&nbsp;&nbsp;';
+                                                                    $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Edit text-primary">Edit</a>';
+                                                                   }
                                                                 }
                                                                 else if ($row['Status'] == 5){
                                                                     $Button .= "<span class='badge badge-info'>Released</span>";
@@ -568,8 +565,8 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="tab-pane fade" id="v-line-pills-declined" role="tabpanel" aria-labelledby="v-line-pills-declined-tab">
-                                                <table id="zero-config5" class="table dt-table-hover" style="width:100%">
+                                            <div class="tab-pane fade" id="v-line-pills-unclaimed" role="tabpanel" aria-labelledby="v-line-pills-unclaimed-tab">
+                                                <table id="zero-config6" class="table dt-table-hover" style="width:100%">
                                                     <thead>
                                                         <tr>
                                                             <th>Fullname</th>
@@ -585,8 +582,6 @@
                                                         <?php
                                                         require("connection/db.php");
                                                         $count = 0;
-                                                        $dateToday = new DateTime();
-                                                        $dateTodayStr = $dateToday->format('Y-m-d');
                                                         $query = "
                                                         SELECT 
                                                             B.ID,
@@ -611,7 +606,7 @@
                                                             INNER JOIN users C ON C.ID = A.UserID
                                                             INNER JOIN document_list D ON D.ID = A.DocumentID
                                                             LEFT JOIN users E ON E.ID = A.ReleasedBy
-                                                            WHERE A.Status = 3 AND A.ReceiveDate = '$dateTodayStr' -- compare with the string version of the date
+                                                            WHERE A.Status = 3 AND A.ReceiveDate < CURDATE()
                                                             ORDER BY A.ID ASC";
                                                         if ($result = $mysqli->query($query)) {
                                                             while($row = $result->fetch_array()){
@@ -637,8 +632,10 @@
                                                                 else if($row['Status'] == 2){
                                                                     $Button = '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Set text-info">Set Appointment</a>';
                                                                 }
-                                                                else if ($row['Status'] == 3 && $row['ReceiveDate'] == $dateTodayStr){
-                                                                    $Button .= "<span class='badge badge-warning'>Unclaimed</span>";
+                                                                else if ($row['Status'] == 3){
+                                                                    if ($row['ReceiveDate'] < date('Y-m-d')) {
+                                                                        $Button .= "<span class='badge badge-warning'>Unclaimed</span>";
+                                                                    }
                                                                 }
                                                                 else if ($row['Status'] == 5){
                                                                     $Button .= "<span class='badge badge-info'>Released</span>";

@@ -28,7 +28,7 @@
                 <div class="middle-content container-xxl p-0">
                     <div class="page-meta">
                         <div class="d-flex justify-content-between">
-                            <h3>User List</h3>
+                            <h3>User Management</h3>
                         </div>
                     </div>
                     <div class="row layout-top-spacing">

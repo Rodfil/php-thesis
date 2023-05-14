@@ -33,7 +33,7 @@
                 <div class="middle-content container-xxl p-0">
                     <div class="page-meta">
                         <div class="d-flex justify-content-between">
-                            <h3>Admin Settings</h3>
+                            <h3>Admin Management</h3>
                             <button class="btn btn-primary mb-2" id="btn_Add_New">Add New</button>
                         </div>
                     </div>

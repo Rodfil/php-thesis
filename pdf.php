@@ -107,8 +107,8 @@
                          $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Undo text-primary">Undo</a>';
                      }
                      $html .= '<tr>
-                     <td>'.$row['Firstname'].' '.$row['Lastname'].'</td>
-                     <td>'.$row['DocumentName'].'</td>
+                     <td>'.ucfirst($row['Firstname']).' '.ucfirst($row['Lastname']).'</td>
+                     <td>'.ucfirst($row['DocumentName']).'</td>
                      <td>'.$row['Purpose'].'</td>
                      <td>'.$ReferenceNo.'</td>
                      <td>'.$row['PaymentMethod'].'</td>
