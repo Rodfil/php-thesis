@@ -40,7 +40,7 @@ $mail->isHTML(true);
 $mail->Subject = 'Requested Document'; 
  
 // Mail body content 
-$bodyContent = '<h1>Hi,'.$Firstname. '' .$Lastname.' Attach below is your document</h1>'; 
+$bodyContent = '<h1>Hi,'.$Firstname. ' '  .$Lastname.'</h1>'.'<br>'.'<b>Attach below is your document</b>'; 
 $mail->Body = $bodyContent; 
 $mail->addAttachment($_FILES['file']['tmp_name'], $_FILES['file']['name']);
 

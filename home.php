@@ -276,8 +276,8 @@
                                                                 break;
                                                             }
                                                             echo '<tr RecordID="'.$row['ID'].'" DocumentID="'.$row['DocumentID'].'" Purpose="'.$row['Purpose'].'">
-                                                                <td>'.$row['DocumentName'].'</td>
-                                                                <td>'.$row['Purpose'].'</td>
+                                                                <td>'.ucfirst($row['DocumentName']).'</td>
+                                                                <td>'.ucfirst($row['Purpose']).'</td>
                                                                 <td>'.$row['DateAdded'].'</td>
                                                                 <td>'.$row['ReferenceNo'].'</td>
                                                                 <td>'.$row['ReceiveDate'].'</td>

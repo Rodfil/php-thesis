@@ -13,7 +13,6 @@
     require("connection/db.php");
     $List = $mysqli->query("SELECT COUNT(*) AS cnt FROM `feedback`")->fetch_array();
     $PageCount = $List['cnt'];
-
     $RequestID = 0;
     if(isset($_GET['id'])){
         $RequestID = $_GET['id'];
@@ -155,6 +154,7 @@
 
                                         <?php
                                             require("connection/db.php");
+                                            $UserID = $_SESSION['UserID'];
                                             $query = "
                                             SELECT 
                                                 A.ID,
@@ -169,6 +169,7 @@
                                             INNER JOIN users B ON B.ID = A.UserID
                                             INNER JOIN request_form C ON C.ID = A.RequestID
                                             INNER JOIN document_list D ON D.ID = C.DocumentID
+                                            WHERE A.UserID = $UserID
                                             ORDER BY ID DESC LIMIT $Offset,$Limit";
                                             if ($result = $mysqli->query($query)) {
                                                 while($row = $result->fetch_array()){

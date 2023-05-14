@@ -5,6 +5,8 @@
 <link rel="stylesheet" type="text/css" href="src/plugins/css/light/table/datatable/dt-global_style.css">
 <link href="src/assets/css/light/components/modal.css" rel="stylesheet" type="text/css">
 <link href="src/css/iziToast.min.css" rel="stylesheet" type="text/css" />
+
+</style>
 <body class="layout-boxed" layout="full-width">
 
     <!-- BEGIN LOADER -->
@@ -28,6 +30,7 @@
         <!--  END SIDEBAR  -->
         
         <!--  BEGIN CONTENT AREA  -->
+        
         <div id="content" class="main-content">
             <div class="layout-px-spacing">
                 <div class="middle-content container-xxl p-0">
@@ -61,7 +64,7 @@
                                         <?php
                                         require("connection/db.php");
                                         $count = 0;
-                                        $dateToday = new DateTime();    
+                                  
                                         $query = "
                                         SELECT 
                                             B.ID,
@@ -92,8 +95,6 @@
                                         if ($result = $mysqli->query($query)) {
                                             while($row = $result->fetch_array()){
                                                 $ReferenceNo = "";
-
-
                                                 if($row['PaymentMethod'] == "GCASH"){
                                                     $ReferenceNo = "<a class='btn_View_Receipt' ReferenceNo='".$row['ReferenceNo']."' href='#'><u>" . $row['ReferenceNo'] . "</u></a>";
                                                 }
@@ -114,15 +115,14 @@
                                                     $Button = '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Set text-info">Set Appointment</a>';
                                                 }
                                                 else if ($row['Status'] == 3){
-                                                    $dateAdded = DateTime::createFromFormat('M d,Y', $row['DateNumber']);
-                                                    $daysDiff = $dateAdded->diff($dateToday)->days;
-                                                    if ($daysDiff == 0) {
+                                                    if ($row['ReceiveDate'] < date('Y-m-d')) {
+                                                        $row['Status'] = "Unclaimed";
+                                                        $Button .= "<span class='badge badge-warning'>".$row['Status']."</span>";
+                                                    }
+                                                     else {
                                                         $Button .= "<span class='badge badge-primary'>For Releasing</span>&nbsp;&nbsp;";
                                                         $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Release text-primary">Release</a>&nbsp;&nbsp;';
                                                         $Button .= '<a href="#" UserID="'.$row['UserID'].'" RequestID="'.$row['RequestID'].'" RecordID="'.$row['ID'].'" class="btn_Action_Edit text-primary">Edit</a>';
-                                                    } else {
-                                                        $row['Status'] = "Unclaimed";
-                                                        $Button .= "<span class='badge badge-warning'>".$row['Status']."</span>";
                                                     }
                                                 } 
                                                 else if ($row['Status'] == 5){
@@ -393,11 +393,11 @@
                                 <input type="file" class="form-control" onchange="readURL(this);" id="UploadFIle">
                             </div>
                         </div>
-                        <div class="col-md-12 div_Gcash_Column">
+                        <!-- <div class="col-md-12 div_Gcash_Column">
                             <div class="mb-3">
-                                <img id="File" style="width: 100%;height: 100%;" src="http://placehold.it/180" alt="your image" />
+                            <iframe id="File" src="path/to/myfile.pdf" width="100%" height="600px"></iframe>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -880,15 +880,14 @@
                 type: 'post',
                 success: function(evt) {
                     if (evt) {
-                   
                         _callAjax('mail_send_document.php', form_data, function(response) {
-                            console.log(response)
+                            Message(2,"You successfully send your document");
                             if (response == 'Success') {
+                                $("#exampleModal7").modal('hide');
                                 setTimeout(function() { 
                                     window.location = "request.php";
                                 }, 2000);
-                                Message(2,"You successfully send your document");
-                                $("#exampleModal7").modal('hide');
+                               
                             } else {
                                 alert('Failed to send document: ' + response.error);
                             }
